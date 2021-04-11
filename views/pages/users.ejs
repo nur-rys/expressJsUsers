@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body class="container">
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+<main>
+    <div class="jumbotron">
+        <h1>All Users</h1>
+        <input type="text" id="myInput" onkeyup="mySearch()" placeholder="Search" title="Type in a name">
+        <table class="table" id="myTable">
+            <tr>
+              <th>Uid</th>
+              <th>Disabled</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Verified</th>
+              <th>Created</th>
+              <th>Last login</th>
+            </tr>
+            <% allUsers.forEach(function(allUsers){ %>
+            <tr > 
+                <td class="text-secondary"><%- allUsers.uid %></td>
+                <td><%- allUsers.disabled %></td>
+                <td><%- allUsers.displayName %></td>
+                <td><%- allUsers.email %></td>
+                <% if(allUsers.emailVerified) { %>
+                    <td class="text-success"><%- allUsers.emailVerified %></td>
+                <% }else{ %>
+                    <td class="text-warning"><%- allUsers.emailVerified %></td>
+                <% } %>    
+                <td><%- allUsers.metadata.creationTime %></td>
+                <td><%- allUsers.metadata.lastSignInTime %></td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+<script>
+    function mySearch() {
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("myInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("myTable");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        //Seach by name - td2, email - td3
+        td2 = tr[i].getElementsByTagName("td")[2];
+        td3 = tr[i].getElementsByTagName("td")[3];
+        if (td2) {
+          txtValue = td2.textContent || td2.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }   
+        if (td3) {
+          txtValue = td3.textContent || td3.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }       
+      }
+    }
+    </script>
+</body>
+</html>
